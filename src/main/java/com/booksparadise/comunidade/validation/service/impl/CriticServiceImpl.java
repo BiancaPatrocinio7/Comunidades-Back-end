@@ -1,5 +1,6 @@
 package com.booksparadise.comunidade.validation.service.impl;
 
+import com.booksparadise.comunidade.client.EventClient;
 import com.booksparadise.comunidade.validation.dto.CriticDTO;
 import com.booksparadise.comunidade.validation.entity.Critic;
 import com.booksparadise.comunidade.validation.repository.CriticRepository;
@@ -17,8 +18,10 @@ import java.util.List;
 
 public class CriticServiceImpl implements CriticService {
     private final CriticRepository repository;
-    @Autowired
-    private ModelMapper modelMapper;
+
+    private final ModelMapper modelMapper;
+
+    private final EventClient eventClient;
     @Override
     public CriticDTO createValidation(CriticDTO criticDTO){
         Critic critic =  modelMapper.map(criticDTO, Critic.class);
@@ -27,6 +30,7 @@ public class CriticServiceImpl implements CriticService {
     }
     @Override
     public List<CriticDTO> findAll() {
+        var events = eventClient.findAll();
         var validation =repository.findAll();
         List<CriticDTO> listCriticDTO = new ArrayList<>();
         validation.forEach(i->{  CriticDTO criticDTO = new CriticDTO();
