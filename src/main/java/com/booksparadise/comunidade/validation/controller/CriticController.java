@@ -25,4 +25,9 @@ public class CriticController {
         return criticService.findAll();
 
     }
+
+    @GetMapping("/{bookRate}")
+    public List<CriticDTO> findByBookRate(@PathVariable Integer bookRate){
+        return criticService.findByBookRate(bookRate);
+    }
 }

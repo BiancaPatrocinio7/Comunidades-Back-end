@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,13 @@ public class CriticServiceImpl implements CriticService {
             criticDTO.setBookRate(i.getBookRate());
             listCriticDTO.add(criticDTO);
         });
+        return listCriticDTO;
+    }
+
+    @Override
+    public List<CriticDTO> findByBookRate(Integer bookRate){
+        List<Critic> listCritic = repository.findByBookRate(bookRate);
+        var listCriticDTO = listCritic.stream().map(i->modelMapper.map(i, CriticDTO.class)).toList();
         return listCriticDTO;
     }
 }
